@@ -1,0 +1,60 @@
+name: Classify
+options:
+  bundleIdPrefix: com.classify
+  deploymentTarget:
+    iOS: "16.0"
+    watchOS: "9.0"
+  xcodeVersion: "15.0"
+  swift: "5.9"
+
+targets:
+  Classify:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: Classify
+        excludes:
+          - "Resources/CNNModel_test.mlpackage"
+          - "Resources/cnn_v2f_artifacts.json"
+          - "CNNModel_v3c.mlpackage"
+    resources:
+      - path: Classify/Resources/CNNModel_test.mlpackage
+      - path: Classify/Resources/cnn_v2f_artifacts.json
+    settings:
+      base:
+        SWIFT_VERSION: "5.9"
+        PRODUCT_BUNDLE_IDENTIFIER: com.kacharino.classify
+        INFOPLIST_FILE: Classify/Info.plist
+    dependencies:
+      - target: ClassifyWatch
+        embed: true
+      - sdk: WatchConnectivity.framework
+
+  ClassifyWatch:
+    type: application
+    platform: watchOS
+    deploymentTarget: "9.0"
+    sources:
+      - path: ClassifyWatch
+    settings:
+      base:
+        SWIFT_VERSION: "5.9"
+        PRODUCT_BUNDLE_IDENTIFIER: com.kacharino.classify.watch
+        INFOPLIST_FILE: ClassifyWatch/Info.plist
+    dependencies:
+      - sdk: CoreMotion.framework
+      - sdk: WatchConnectivity.framework
+
+  ClassifyTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: ClassifyTests
+    settings:
+      base:
+        SWIFT_VERSION: "5.9"
+        PRODUCT_BUNDLE_IDENTIFIER: com.classify.tests
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: Classify
