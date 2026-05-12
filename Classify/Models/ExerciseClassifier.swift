@@ -148,18 +148,7 @@ class ExerciseClassifier {
             if let ranked = predictWindow(input, model: model), let top1 = ranked.first {
                 let topStr = ranked.prefix(3).map { String(format: "%@ (%.3f)", $0.label, $0.confidence) }.joined(separator: " | ")
                 print("WINDOW \(windowIndex): \(topStr)")
-
-                var effectiveLabel = top1.label
-                var effectiveConf  = top1.confidence
-                if top1.label == "non-exercise",
-                   let jj = ranked.first(where: { $0.label == "jumping_jacks" }),
-                   jj.confidence > 0.15 {
-                    effectiveLabel = "jumping_jacks"
-                    effectiveConf  = jj.confidence
-                    print("WINDOW \(windowIndex): non-exercise overridden → jumping_jacks (\(String(format: "%.3f", jj.confidence)))")
-                }
-
-                allResults.append((label: effectiveLabel, confidence: effectiveConf))
+                allResults.append((label: top1.label, confidence: top1.confidence))
             }
             windowIndex += 1
             start += stride
@@ -168,39 +157,35 @@ class ExerciseClassifier {
         let totalWindows = allResults.count
         guard totalWindows >= minWindows else { return ("non-exercise", 0.0) }
 
-        // Filter out windows where non-exercise wins with high confidence (> 0.95)
-        let exerciseResults = allResults.filter { $0.label != "non-exercise" || $0.confidence <= 0.95 }
+        // Filter out ALL non-exercise windows
+        let exerciseResults = allResults.filter { $0.label != "non-exercise" }
         let filteredCount   = totalWindows - exerciseResults.count
 
         guard !exerciseResults.isEmpty else {
-            print("DEBUG windows: total=\(totalWindows)  non_ex_filtered=\(filteredCount)  winner=non-exercise  votes=0/0 (0%)  confidence=0.000")
+            print("DEBUG windows: total=\(totalWindows)  non_ex_filtered=\(filteredCount)  winner=non-exercise  votes=0/0 (0%)")
             return ("non-exercise", 0.0)
         }
 
-        // Group by label → count votes + accumulate confidence
-        var votes: [String: (count: Int, totalConf: Double)] = [:]
+        // Simple majority vote — count only, no confidence weighting
+        var votes: [String: Int] = [:]
         for r in exerciseResults {
-            let cur = votes[r.label] ?? (0, 0.0)
-            votes[r.label] = (cur.count + 1, cur.totalConf + r.confidence)
+            votes[r.label, default: 0] += 1
         }
 
-        // Winner: most votes; tie-break by avg confidence
-        let winner = votes.max {
-            if $0.value.count != $1.value.count { return $0.value.count < $1.value.count }
-            return ($0.value.totalConf / Double($0.value.count)) < ($1.value.totalConf / Double($1.value.count))
-        }!
-
+        let winner    = votes.max { $0.value < $1.value }!
         let winLabel  = winner.key
-        let winVotes  = winner.value.count
-        let avgConf   = winner.value.totalConf / Double(winVotes)
+        let winVotes  = winner.value
         let voteShare = Double(winVotes) / Double(exerciseResults.count)
 
+        // Avg confidence for display only
+        let avgConf = exerciseResults.filter { $0.label == winLabel }.map { $0.confidence }.reduce(0, +) / Double(winVotes)
+
         guard voteShare >= 0.30 else {
-            print("DEBUG windows: total=\(totalWindows)  non_ex_filtered=\(filteredCount)  winner=\(winLabel)  votes=\(winVotes)/\(exerciseResults.count) (\(String(format: "%.0f", voteShare * 100))%)  confidence=\(String(format: "%.3f", avgConf))  → rejected (< 30%)")
+            print("DEBUG windows: total=\(totalWindows)  non_ex_filtered=\(filteredCount)  winner=\(winLabel)  votes=\(winVotes)/\(exerciseResults.count) (\(String(format: "%.0f", voteShare * 100))%)  → rejected (< 30%)")
             return ("non-exercise", 0.0)
         }
 
-        print("DEBUG windows: total=\(totalWindows)  non_ex_filtered=\(filteredCount)  winner=\(winLabel)  votes=\(winVotes)/\(exerciseResults.count) (\(String(format: "%.0f", voteShare * 100))%)  confidence=\(String(format: "%.3f", avgConf))")
+        print("DEBUG windows: total=\(totalWindows)  non_ex_filtered=\(filteredCount)  winner=\(winLabel)  votes=\(winVotes)/\(exerciseResults.count) (\(String(format: "%.0f", voteShare * 100))%)")
 
         return (winLabel, avgConf)
     }
