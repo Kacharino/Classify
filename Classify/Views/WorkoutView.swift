@@ -109,7 +109,7 @@ struct WorkoutView: View {
             // Sets list
             List {
                 ForEach(Array(sessionManager.currentSets.enumerated().reversed()), id: \.element.id) { index, set in
-                    SetRowView(index: index + 1, set: set)
+                    SetRowView(index: index + 1, set: set, highlightLowConfidence: true)
                 }
             }
             .listStyle(.plain)
@@ -155,51 +155,6 @@ struct WorkoutView: View {
         let m = elapsedSeconds / 60
         let s = elapsedSeconds % 60
         return String(format: "%02d:%02d", m, s)
-    }
-}
-
-// MARK: - SetRowView
-
-private struct SetRowView: View {
-    let index: Int
-    let set: WorkoutSet
-
-    var body: some View {
-        HStack {
-            Text("\(index).")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .frame(width: 32, alignment: .leading)
-
-            if set.isConnectionLost {
-                Label("Verbindung unterbrochen", systemImage: "exclamationmark.triangle.fill")
-                    .foregroundStyle(.yellow)
-                    .font(.subheadline)
-            } else {
-                Text(set.exerciseLabel.replacingOccurrences(of: "_", with: " ").capitalized)
-                    .font(.subheadline)
-                Spacer()
-                confidenceBadge(set.confidence)
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func confidenceBadge(_ confidence: Double) -> some View {
-        HStack(spacing: 3) {
-            if confidence < 0.5 {
-                Image(systemName: "exclamationmark.triangle.fill")
-                    .font(.caption)
-                    .foregroundStyle(.orange)
-            }
-            Text(String(format: "%.0f%%", confidence * 100))
-                .font(.caption.bold())
-                .padding(.horizontal, 8)
-                .padding(.vertical, 3)
-                .background(confidence < 0.5 ? Color.orange.opacity(0.2) : Color.green.opacity(0.2))
-                .foregroundStyle(confidence < 0.5 ? .orange : .green)
-                .clipShape(Capsule())
-        }
     }
 }
 

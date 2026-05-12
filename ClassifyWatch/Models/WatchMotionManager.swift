@@ -19,19 +19,15 @@ class WatchMotionManager: ObservableObject {
         motionManager.startDeviceMotionUpdates(to: queue) { [weak self] motion, error in
             guard let self, let motion, error == nil else { return }
 
-            // Accelerometer: userAcceleration (gravity-removed) × 9.81 → m/s²
-            var ax = motion.userAcceleration.x * 9.81
-            let ay = motion.userAcceleration.y * 9.81
-            let az = motion.userAcceleration.z * 9.81
+            // Accelerometer: userAcceleration + gravity × 9.81 → m/s²
+            let ax = (motion.userAcceleration.x + motion.gravity.x) * 9.81
+            let ay = (motion.userAcceleration.y + motion.gravity.y) * 9.81
+            let az = -((motion.userAcceleration.z + motion.gravity.z) * 9.81)
 
             // Gyroscope: rotationRate → rad/s
-            var gx = motion.rotationRate.x
+            let gx = motion.rotationRate.x
             let gy = motion.rotationRate.y
             let gz = motion.rotationRate.z
-
-            // Axis correction for left wrist (MMFit recorded on right wrist)
-            ax = -ax
-            gx = -gx
 
             self.collectedSamples.append([ax, ay, az, gx, gy, gz])
         }

@@ -17,7 +17,7 @@ struct ClassifyApp: App {
                 .environmentObject(sessionManager)
                 .environmentObject(watchManager)
                 .onAppear {
-                    watchManager.sessionManager = sessionManager
+                    watchManager.delegate = sessionManager
                 }
         }
     }

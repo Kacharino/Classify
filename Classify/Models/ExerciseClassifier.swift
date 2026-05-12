@@ -17,33 +17,52 @@ class ExerciseClassifier {
     // MARK: - Setup
 
     private func loadArtifacts() {
+        let allJSON = Bundle.main.paths(forResourcesOfType: "json", inDirectory: nil)
+        print("ExerciseClassifier: JSON files in bundle — \(allJSON)")
+
         let jsonURL = Bundle.main.url(forResource: "cnn_v2f_artifacts", withExtension: "json")
                    ?? Bundle.main.url(forResource: "cnn_v2f_artifacts", withExtension: "json",
                                       subdirectory: "Resources")
-        guard let url = jsonURL,
-              let data = try? Data(contentsOf: url),
-              let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-              let normalization = json["normalization"] as? [String: Any],
-              let config = json["config"] as? [String: Any]
-        else {
-            print("ExerciseClassifier: failed to load artifacts JSON")
+        guard let url = jsonURL else {
+            print("ExerciseClassifier: cnn_v2f_artifacts.json not found in bundle")
+            return
+        }
+
+        guard let data = try? Data(contentsOf: url) else {
+            print("ExerciseClassifier: failed to read data from \(url)")
+            return
+        }
+
+        guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+            print("ExerciseClassifier: JSON parse failed — file may be malformed")
+            return
+        }
+
+        guard let normalization = json["normalization"] as? [String: Any] else {
+            print("ExerciseClassifier: missing 'normalization' key — top-level keys: \(json.keys.sorted())")
+            return
+        }
+
+        guard let config = json["config"] as? [String: Any] else {
+            print("ExerciseClassifier: missing 'config' key — top-level keys: \(json.keys.sorted())")
             return
         }
 
         means = (normalization["mean"] as? [Double]) ?? []
         stds  = (normalization["std"]  as? [Double]) ?? []
         classOrder = (config["class_order"] as? [String]) ?? []
+        print("ExerciseClassifier: artifacts loaded — \(classOrder.count) classes, \(means.count) mean values")
     }
 
     private func loadModel() {
         // 1. Prefer compiled .mlmodelc (Xcode build output)
-        if let compiledURL = Bundle.main.url(forResource: "CNNModel_test", withExtension: "mlmodelc") {
+        if let compiledURL = Bundle.main.url(forResource: "CNNModel_v3c", withExtension: "mlmodelc") {
             model = try? MLModel(contentsOf: compiledURL)
             if model != nil { return }
         }
         // 2. Fallback: compile .mlpackage at runtime
-        let pkgURL = Bundle.main.url(forResource: "CNNModel_test", withExtension: "mlpackage")
-                  ?? Bundle.main.url(forResource: "CNNModel_test", withExtension: "mlpackage",
+        let pkgURL = Bundle.main.url(forResource: "CNNModel_v3c", withExtension: "mlpackage")
+                  ?? Bundle.main.url(forResource: "CNNModel_v3c", withExtension: "mlpackage",
                                      subdirectory: "Resources")
         guard let pkgURL else {
             print("ExerciseClassifier: model not found")
@@ -91,6 +110,22 @@ class ExerciseClassifier {
         guard !means.isEmpty, !stds.isEmpty, !classOrder.isEmpty else { return ("non-exercise", 0.0) }
         guard samples.count >= windowSize else { return ("non-exercise", 0.0) }
 
+        // --- DEBUG: normalization diagnostics (remove after investigation) ---
+        print("DEBUG means: \(means)")
+        print("DEBUG stds:  \(stds)")
+        let rawSlice = samples.prefix(5)
+        for (i, row) in rawSlice.enumerated() {
+            print("DEBUG RAW sample \(i): \(row)")
+        }
+        for (i, row) in rawSlice.enumerated() {
+            let normed = row.enumerated().map { (c, raw) -> Double in
+                guard c < means.count, c < stds.count, stds[c] != 0 else { return 0.0 }
+                return (raw - means[c]) / stds[c]
+            }
+            print("DEBUG NORM sample \(i): \(normed)")
+        }
+        // --- END DEBUG ---
+
         // Collect predictions from all sliding windows
         var allResults: [(label: String, confidence: Double)] = []
         var windowIndex = 0
@@ -133,8 +168,8 @@ class ExerciseClassifier {
         let totalWindows = allResults.count
         guard totalWindows >= minWindows else { return ("non-exercise", 0.0) }
 
-        // Filter out non-exercise windows
-        let exerciseResults = allResults.filter { $0.label != "non-exercise" }
+        // Filter out windows where non-exercise wins with high confidence (> 0.95)
+        let exerciseResults = allResults.filter { $0.label != "non-exercise" || $0.confidence <= 0.95 }
         let filteredCount   = totalWindows - exerciseResults.count
 
         guard !exerciseResults.isEmpty else {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16C031A4F268319714FD2710 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF16066D944F8FFA4AFAA184 /* FlowLayout.swift */; };
 		1C2FB8ABD603CDFF935FFEDE /* ClassifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52D814198D3F223AD480AB3 /* ClassifyTests.swift */; };
 		4DBB5C38CFB23A6F1D1EC30D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24BA7FF31181F806F298AD28 /* ContentView.swift */; };
 		4E07ED22A4B6FAEC74FB81A7 /* WorkoutWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED6F4A34FAC3F749445B7F5 /* WorkoutWatchView.swift */; };
@@ -23,12 +24,14 @@
 		A83A9003DBB4CC5DEB7B6BD3 /* WorkoutStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECBD118FED7F87A1B5356BA /* WorkoutStore.swift */; };
 		AA44418E09FA6C44980B36D2 /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB2C9C7CC14A11CD29B07676 /* WatchConnectivity.framework */; };
 		B515BA0E95EBEF1E1F675C9A /* ClassifyWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FD91214F78D6D6C30DB223F9 /* ClassifyWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BBE9B024A295AF8DAE83357B /* SetRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97809931A050776B00DCB002 /* SetRowView.swift */; };
 		C2B4C49E3164D5BFF73BB513 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3341AACD1775ED6CB509BE33 /* HistoryView.swift */; };
 		CC83357336C4666E0AFFF6CD /* ClassifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DB25C64F1379A05B1A838B /* ClassifyApp.swift */; };
+		D7677210C1B6FE74DC0BFCD1 /* CNNModel_v3c.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 0A2B25FF5B3335D474591645 /* CNNModel_v3c.mlpackage */; };
 		E355A86A108D645759F29158 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF631A8625427CF12CC79C5 /* WatchSessionManager.swift */; };
 		E846F2CFBFA08A830D869190 /* WorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5605A10F1EA130CC140578F /* WorkoutView.swift */; };
-		F3C691336AA7AFC3D46E385A /* CNNModel_test.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = 52F4E01DBF76B54D41F32945 /* CNNModel_test.mlpackage */; };
 		F8A43AA9A9A25C9A6B70BA2E /* ExerciseClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642EE407C6E4D95E926F5172 /* ExerciseClassifier.swift */; };
+		F8E57836D3D99B7636018123 /* cnn_v2f_artifacts.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A62EA9609596101B3190D6E /* cnn_v2f_artifacts.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +67,8 @@
 
 /* Begin PBXFileReference section */
 		03203064E917A8FBC6CE9B34 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		0A2B25FF5B3335D474591645 /* CNNModel_v3c.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = CNNModel_v3c.mlpackage; sourceTree = "<group>"; };
+		1A62EA9609596101B3190D6E /* cnn_v2f_artifacts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = cnn_v2f_artifacts.json; sourceTree = "<group>"; };
 		1C73A84EF33B18EF47F6313A /* WorkoutSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSession.swift; sourceTree = "<group>"; };
 		213590DCC9857028FC3BEFAB /* ClassifyWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifyWatchApp.swift; sourceTree = "<group>"; };
 		24BA7FF31181F806F298AD28 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,7 +76,6 @@
 		3341AACD1775ED6CB509BE33 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		3AF631A8625427CF12CC79C5 /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
 		4ECBD118FED7F87A1B5356BA /* WorkoutStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutStore.swift; sourceTree = "<group>"; };
-		52F4E01DBF76B54D41F32945 /* CNNModel_test.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = CNNModel_test.mlpackage; sourceTree = "<group>"; };
 		5594D8F1FDCA8678A52EDD99 /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		569F51627F69BBBFCF9FEB4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		642EE407C6E4D95E926F5172 /* ExerciseClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseClassifier.swift; sourceTree = "<group>"; };
@@ -79,13 +83,15 @@
 		7CFF71F30EE47723E0688B32 /* WatchConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityManager.swift; sourceTree = "<group>"; };
 		88C8707D092B43DF342D971D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		91C9EEDE34EBCF1558F80398 /* WatchMotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchMotionManager.swift; sourceTree = "<group>"; };
+		97809931A050776B00DCB002 /* SetRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRowView.swift; sourceTree = "<group>"; };
 		9AFA6B3BFD76E46A6BC3B71E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A260E0E99D48D63C6ECA0E1C /* WorkoutSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSet.swift; sourceTree = "<group>"; };
 		A52D814198D3F223AD480AB3 /* ClassifyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifyTests.swift; sourceTree = "<group>"; };
 		B5605A10F1EA130CC140578F /* WorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutView.swift; sourceTree = "<group>"; };
-		C94D0F58862DABD4DB0A4360 /* ClassifyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClassifyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C94D0F58862DABD4DB0A4360 /* ClassifyTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ClassifyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB2C9C7CC14A11CD29B07676 /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
 		D5DB25C64F1379A05B1A838B /* ClassifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifyApp.swift; sourceTree = "<group>"; };
+		DF16066D944F8FFA4AFAA184 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		EED6F4A34FAC3F749445B7F5 /* WorkoutWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutWatchView.swift; sourceTree = "<group>"; };
 		FD91214F78D6D6C30DB223F9 /* ClassifyWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassifyWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -178,6 +184,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		DDE4F58B5FAB249EF57B7CEC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1A62EA9609596101B3190D6E /* cnn_v2f_artifacts.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		DE2ECD113966AE52136F2669 = {
 			isa = PBXGroup;
 			children = (
@@ -192,10 +206,11 @@
 		E5956D9A4B8AE10863EAB8E9 /* Classify */ = {
 			isa = PBXGroup;
 			children = (
-				52F4E01DBF76B54D41F32945 /* CNNModel_test.mlpackage */,
+				0A2B25FF5B3335D474591645 /* CNNModel_v3c.mlpackage */,
 				569F51627F69BBBFCF9FEB4B /* Info.plist */,
 				B6B94758C5DC0ACE09ACD53C /* App */,
 				A4CC92697A0F6F60DEE72643 /* Models */,
+				DDE4F58B5FAB249EF57B7CEC /* Resources */,
 				E677803B41FE6B2E2BF1526A /* Views */,
 			);
 			path = Classify;
@@ -213,7 +228,9 @@
 		E677803B41FE6B2E2BF1526A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DF16066D944F8FFA4AFAA184 /* FlowLayout.swift */,
 				3341AACD1775ED6CB509BE33 /* HistoryView.swift */,
+				97809931A050776B00DCB002 /* SetRowView.swift */,
 				5594D8F1FDCA8678A52EDD99 /* SummaryView.swift */,
 				B5605A10F1EA130CC140578F /* WorkoutView.swift */,
 			);
@@ -238,6 +255,7 @@
 			buildConfigurationList = AE5F0FAAA27E0B9641871347 /* Build configuration list for PBXNativeTarget "Classify" */;
 			buildPhases = (
 				786065801EB75B0BF03A6B39 /* Sources */,
+				BD77AEF88109C906BED8FFCA /* Resources */,
 				483AA57C9006E423B6E8B5D0 /* Frameworks */,
 				62D2B57208AD21056E31FD1C /* Embed Watch Content */,
 			);
@@ -319,6 +337,17 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		BD77AEF88109C906BED8FFCA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8E57836D3D99B7636018123 /* cnn_v2f_artifacts.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		7223498280F50875286349CE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -336,12 +365,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3C691336AA7AFC3D46E385A /* CNNModel_test.mlpackage in Sources */,
+				D7677210C1B6FE74DC0BFCD1 /* CNNModel_v3c.mlpackage in Sources */,
 				CC83357336C4666E0AFFF6CD /* ClassifyApp.swift in Sources */,
 				4DBB5C38CFB23A6F1D1EC30D /* ContentView.swift in Sources */,
 				F8A43AA9A9A25C9A6B70BA2E /* ExerciseClassifier.swift in Sources */,
+				16C031A4F268319714FD2710 /* FlowLayout.swift in Sources */,
 				C2B4C49E3164D5BFF73BB513 /* HistoryView.swift in Sources */,
 				8FE2798BAABB930EF7B36015 /* SessionManager.swift in Sources */,
+				BBE9B024A295AF8DAE83357B /* SetRowView.swift in Sources */,
 				7E78133E17EF9ED2351C6197 /* SummaryView.swift in Sources */,
 				8F608C6826F993DE635ED7F6 /* WatchConnectivityManager.swift in Sources */,
 				5E733D5648A821E0F924F31A /* WorkoutSession.swift in Sources */,
@@ -472,7 +503,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 46HFHH78C8;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -547,7 +577,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 46HFHH78C8;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

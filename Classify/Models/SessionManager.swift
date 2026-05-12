@@ -1,11 +1,23 @@
 import Foundation
 
-class SessionManager: ObservableObject {
+class SessionManager: ObservableObject, WatchConnectivityDelegate {
     @Published var isSessionActive: Bool = false
     @Published var currentSets: [WorkoutSet] = []
     private(set) var sessionStartTime: Date?
 
-    private let classifier = ExerciseClassifier()
+    private let classifier: ExerciseClassifier
+
+    init(classifier: ExerciseClassifier = ExerciseClassifier()) {
+        self.classifier = classifier
+    }
+
+    func didReceiveSamples(_ samples: [[Double]]) {
+        addRawSensorData(samples)
+    }
+
+    func didLoseConnection() {
+        addConnectionLostSet()
+    }
 
     func startSession() {
         currentSets = []

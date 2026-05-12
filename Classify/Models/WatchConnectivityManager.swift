@@ -1,8 +1,14 @@
 import Foundation
 import WatchConnectivity
 
+protocol WatchConnectivityDelegate: AnyObject {
+    var isSessionActive: Bool { get }
+    func didReceiveSamples(_ samples: [[Double]])
+    func didLoseConnection()
+}
+
 class WatchConnectivityManager: NSObject, ObservableObject {
-    var sessionManager: SessionManager?
+    weak var delegate: WatchConnectivityDelegate?
 
     private var pendingBatches: [Int: [[Double]]] = [:]
 
@@ -19,6 +25,7 @@ class WatchConnectivityManager: NSObject, ObservableObject {
     func sendStartCommand() {
         guard WCSession.isSupported(),
               WCSession.default.activationState == .activated else { return }
+        try? WCSession.default.updateApplicationContext(["isSessionActive": true])
         // sendMessage: immediate delivery when Watch is reachable
         if WCSession.default.isReachable {
             WCSession.default.sendMessage(["command": "start"], replyHandler: nil, errorHandler: nil)
@@ -30,6 +37,7 @@ class WatchConnectivityManager: NSObject, ObservableObject {
     func sendStopCommand() {
         guard WCSession.isSupported(),
               WCSession.default.activationState == .activated else { return }
+        try? WCSession.default.updateApplicationContext(["isSessionActive": false])
         if WCSession.default.isReachable {
             WCSession.default.sendMessage(["command": "stop"], replyHandler: nil, errorHandler: nil)
         }
@@ -44,6 +52,8 @@ extension WatchConnectivityManager: WCSessionDelegate {
                  activationDidCompleteWith activationState: WCSessionActivationState,
                  error: Error?) {
         if let error { print("WCSession activation error: \(error)") }
+        guard activationState == .activated else { return }
+        try? session.updateApplicationContext(["isSessionActive": false])
     }
 
     func sessionDidBecomeInactive(_ session: WCSession) {}
@@ -75,15 +85,15 @@ extension WatchConnectivityManager: WCSessionDelegate {
             pendingBatches.removeAll()
 
             DispatchQueue.global(qos: .userInitiated).async {
-                self.sessionManager?.addRawSensorData(allSamples)
+                self.delegate?.didReceiveSamples(allSamples)
             }
         }
     }
 
     func sessionReachabilityDidChange(_ session: WCSession) {
-        guard let mgr = sessionManager, mgr.isSessionActive else { return }
+        guard let delegate, delegate.isSessionActive else { return }
         if !session.isReachable {
-            mgr.addConnectionLostSet()
+            delegate.didLoseConnection()
         }
     }
 }

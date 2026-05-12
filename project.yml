@@ -14,12 +14,7 @@ targets:
     deploymentTarget: "16.0"
     sources:
       - path: Classify
-        excludes:
-          - "Resources/CNNModel_test.mlpackage"
-          - "Resources/cnn_v2f_artifacts.json"
-          - "CNNModel_v3c.mlpackage"
     resources:
-      - path: Classify/Resources/CNNModel_test.mlpackage
       - path: Classify/Resources/cnn_v2f_artifacts.json
     settings:
       base:
