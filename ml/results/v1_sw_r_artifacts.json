@@ -1,0 +1,68 @@
+{
+  "config": {
+    "fs_target": 50.0,
+    "window_size": 250,
+    "stride_samples": 10,
+    "class_order": [
+      "squats",
+      "lunges",
+      "bicep_curls",
+      "situps",
+      "pushups",
+      "tricep_extensions",
+      "dumbbell_rows",
+      "jumping_jacks",
+      "dumbbell_shoulder_press",
+      "lateral_shoulder_raises",
+      "non-exercise"
+    ],
+    "train_ids": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      7,
+      8,
+      16,
+      17,
+      18
+    ],
+    "val_ids": [
+      14,
+      15,
+      19
+    ],
+    "test_seen_ids": [
+      9,
+      10,
+      11
+    ],
+    "test_unseen_ids": [
+      0,
+      5,
+      12,
+      13,
+      20
+    ],
+    "seed": 42
+  },
+  "normalization": {
+    "mean": [
+      4.204517841339111,
+      -3.3050999641418457,
+      1.9852676391601562,
+      -0.0049042957834899426,
+      -0.007731315214186907,
+      -0.005026558879762888
+    ],
+    "std": [
+      6.358500957489014,
+      4.853775978088379,
+      4.325448036193848,
+      1.08015775680542,
+      0.8401715159416199,
+      0.9931259155273438
+    ]
+  }
+}

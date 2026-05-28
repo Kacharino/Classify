@@ -1,0 +1,12 @@
+data/
+pipelines/
+Bachelor.code-workspace
+.venv/
+.claude/
+.ipython/
+.jupyter_config/
+.jupyter_data/
+.jupyter_runtime/
+.mplconfig/
+.vscode/
+.DS_Store
